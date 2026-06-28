@@ -1,0 +1,22 @@
+'use client'
+
+import type { MotionStyle } from 'motion/react'
+import { motion } from 'motion/react'
+
+export function HeroVideo({ style }: { style: MotionStyle }) {
+  return (
+    <motion.video
+      className="absolute inset-0 h-full w-full object-cover object-center"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      poster="/assets/hero/first.png"
+      aria-hidden="true"
+      style={style}
+    >
+      <source src="/assets/hero/hero-video.mp4" type="video/mp4" />
+    </motion.video>
+  )
+}

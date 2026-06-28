@@ -1,0 +1,130 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   AVEREXA ANIMATIONS
+   CSS keyframe animations and reduced-motion overrides.
+   Motion for React (motion/react) handles JS animations.
+   This file handles CSS-only animations: Aurora, pulse, spinner.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ── Aurora Background ───────────────────────────────────────────────────── */
+
+@keyframes aurora {
+  0% {
+    background-position: 0% 50%;
+    transform: rotate(-5deg) scale(0.9);
+    opacity: 0.35;
+  }
+  25% {
+    background-position: 50% 0%;
+    transform: rotate(0deg) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: rotate(5deg) scale(0.95);
+    opacity: 0.4;
+  }
+  75% {
+    background-position: 50% 100%;
+    transform: rotate(-2deg) scale(1.05);
+    opacity: 0.45;
+  }
+  100% {
+    background-position: 0% 50%;
+    transform: rotate(-5deg) scale(0.9);
+    opacity: 0.35;
+  }
+}
+
+.aurora-layer {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 50%,
+    rgba(26, 138, 113, 0.25) 0%,
+    rgba(15, 94, 72, 0.15) 40%,
+    rgba(0, 20, 19, 0) 70%
+  );
+  background-size: 200% 200%;
+  animation: aurora 60s linear infinite;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ── WhatsApp FAB Pulse Ring ─────────────────────────────────────────────── */
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ping {
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* ── Loading Spinner (form submit state) ─────────────────────────────────── */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Skeleton Loading Pulse ────────────────────────────────────────────────── */
+
+@keyframes pulse-skeleton {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.animate-skeleton {
+  animation: pulse-skeleton 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   REDUCED MOTION OVERRIDES
+   When the user has prefers-reduced-motion enabled, all CSS animations
+   must stop. Motion for React handles JS animation gates separately
+   via ReducedMotionContext.
+   ───────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .aurora-layer {
+    animation: none;
+  }
+
+  .animate-ping {
+    animation: none;
+    opacity: 0;
+  }
+
+  .animate-spin {
+    animation: none;
+  }
+
+  .animate-skeleton {
+    animation: none;
+    opacity: 0.6;
+  }
+}

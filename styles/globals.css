@@ -1,0 +1,283 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BLOCK 1: Tailwind v4 Theme
+   hex values here generate Tailwind utility classes:
+   bg-ink-900, text-emerald-500, border-mint-200, etc.
+   ───────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* ── Core Brand Palette (Locked) ─────────────────────── */
+  --color-ink-900: #001413;
+  --color-emerald-800: #0F5E48;
+  --color-emerald-500: #1A8A71;
+  --color-emerald-400: #23A88A;
+  --color-mint-200: #B5EACC;
+  --color-mint-100: #D4F4E2;
+
+  /* ── Neutrals (Green-shifted for brand harmony) ────────── */
+  --color-white: #FFFFFF;
+  --color-snow-50: #F4F8F6;
+  --color-fog-100: #E6EEEA;
+  --color-slate-400: #8A9B94;
+  --color-slate-600: #5A6B64;
+  --color-charcoal-800: #1C2623;
+  --color-near-black: #080F0E;
+
+  /* ── Semantic States ────────────────────────────────────── */
+  --color-success: #1A8A71;
+  --color-warning: #E0A330;
+  --color-error: #D2544A;
+  --color-info: #3A8DB8;
+
+  /* ── Typography Families ────────────────────────────────── */
+  /* Font CSS variables are set in app/layout.tsx via next/font/local  */
+  /* These reference those CSS variables with system fallbacks for M0  */
+  --font-clash: var(--font-display, 'Syne', 'Clash Display', system-ui, sans-serif);
+  --font-satoshi: var(--font-body, 'DM Sans', 'Satoshi', system-ui, sans-serif);
+  --font-mono: var(--font-jetbrains-mono, 'JetBrains Mono', ui-monospace, monospace);
+
+  /* ── Border Radius ──────────────────────────────────────── */
+  --radius-sm: 0.5rem;    /* 8px */
+  --radius-md: 1rem;      /* 16px */
+  --radius-lg: 1.5rem;    /* 24px */
+  --radius-full: 9999px;
+
+  /* ── Icon Sizes ─────────────────────────────────────────── */
+  --size-icon-xs: 0.75rem;   /* 12px */
+  --size-icon-sm: 1rem;      /* 16px */
+  --size-icon-md: 1.25rem;   /* 20px */
+  --size-icon-lg: 1.5rem;    /* 24px */
+  --size-icon-xl: 2rem;      /* 32px */
+  --size-icon-2xl: 2.5rem;   /* 40px */
+  --size-icon-3xl: 3rem;     /* 48px */
+
+  /* ── Motion Durations (mirrors config/motion.ts) ──────── */
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-normal: 300ms;
+  --duration-emphasis: 450ms;
+  --duration-cinematic: 600ms;
+  --duration-counter: 800ms;
+
+  /* ── Brand Easing ────────────────────────────────────────── */
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ── Spacing (B-05 resolved — 8px base grid) ─────────────── */
+  --spacing-section: 6rem;         /* 96px — desktop section padding */
+  --spacing-section-md: 4rem;      /* 64px — tablet */
+  --spacing-section-sm: 3rem;      /* 48px — mobile */
+  --spacing-card: 2rem;            /* 32px — card padding desktop */
+  --spacing-card-sm: 1.5rem;       /* 24px — card padding mobile */
+  --spacing-container: 80rem;      /* 1280px — max-width */
+  --spacing-container-pad: 1.5rem; /* 24px — horizontal padding */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BLOCK 2: shadcn/ui CSS Variables
+   Space-separated RGB triplets for use in HSL() color functions.
+   These are consumed by shadcn/ui component primitives.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Base */
+  --background: 177 100% 4%;        /* ink-900 */
+  --foreground: 0 0% 100%;           /* white */
+
+  /* Card */
+  --card: 177 100% 6%;               /* ink-800-like */
+  --card-foreground: 0 0% 100%;
+
+  /* Popover */
+  --popover: 177 100% 6%;
+  --popover-foreground: 0 0% 100%;
+
+  /* Primary — emerald-500 */
+  --primary: 167 68% 32%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary — emerald-800 */
+  --secondary: 163 73% 21%;
+  --secondary-foreground: 141 56% 81%;  /* mint-200 */
+
+  /* Muted */
+  --muted: 177 100% 6%;
+  --muted-foreground: 155 8% 58%;        /* slate-400 */
+
+  /* Accent */
+  --accent: 167 68% 32%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Destructive */
+  --destructive: 4 54% 56%;             /* error */
+  --destructive-foreground: 0 0% 100%;
+
+  /* Border / Input / Ring */
+  --border: 163 73% 21%;                /* emerald-800 */
+  --input: 177 100% 6%;
+  --ring: 167 68% 32%;                   /* emerald-500 */
+
+  /* Radius (referenced by shadcn components) */
+  --radius: 0.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BLOCK 3: Base Styles
+   ───────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: hsl(var(--border) / 0.15);
+  }
+
+  html {
+    scroll-behavior: auto; /* Lenis handles smooth scroll — native must be auto */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: #001413; /* ink-900 — no flash of white on load */
+    color: #FFFFFF;
+    font-family: var(--font-body, 'DM Sans', system-ui, sans-serif);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* Focus ring — brand emerald, consistent across all interactive elements */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 138, 113, 0.6);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Selection colour */
+  ::selection {
+    background-color: rgba(26, 138, 113, 0.3);
+    color: #FFFFFF;
+  }
+
+  /* Scrollbar styling (Webkit) */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #001413;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #0F5E48;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #1A8A71;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BLOCK 4: Effect Tokens (not generatable by Tailwind utilities)
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --accent-glow: rgba(26, 138, 113, 0.45);
+  --bg-glass: rgba(0, 20, 19, 0.85);
+  --bg-glass-light: rgba(244, 248, 246, 0.85);
+  --border-glass: rgba(181, 234, 204, 0.15);
+  --gradient-hero: linear-gradient(135deg, #001413 0%, #0F5E48 100%);
+  --gradient-accent: linear-gradient(135deg, #1A8A71 0%, #23A88A 100%);
+  --gradient-overlay-left: linear-gradient(to right, rgba(0, 20, 19, 0.85) 0%, rgba(0, 20, 19, 0.4) 50%, transparent 100%);
+  --gradient-overlay-top: linear-gradient(to bottom, rgba(0, 20, 19, 0.65) 0%, transparent 60%);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BLOCK 5: Utility Classes
+   ───────────────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  /* Container with max-width and horizontal padding */
+  .container-site {
+    width: 100%;
+    max-width: var(--spacing-container);
+    margin-inline: auto;
+    padding-inline: var(--spacing-container-pad);
+  }
+
+  @media (min-width: 768px) {
+    .container-site {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-site {
+      padding-inline: 3rem;
+    }
+  }
+
+  /* Section vertical padding */
+  .section-padding {
+    padding-block: var(--spacing-section-sm);
+  }
+
+  @media (min-width: 768px) {
+    .section-padding {
+      padding-block: var(--spacing-section-md);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-padding {
+      padding-block: var(--spacing-section);
+    }
+  }
+
+  /* Glass surface */
+  .glass {
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+  }
+
+  /* Eyebrow label */
+  .eyebrow {
+    font-family: var(--font-jetbrains-mono, 'JetBrains Mono', ui-monospace, monospace);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1A8A71;
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BLOCK 6: Accordion Keyframes (shadcn/ui Radix Accordion)
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+@layer utilities {
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
+  }
+}
